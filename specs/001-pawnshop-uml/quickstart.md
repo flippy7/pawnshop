@@ -1,24 +1,37 @@
-# Настанова майбутньої перевірки: задача 001
+# Настанова перевірки: задача 001
 
-Ці дії виконуються після реалізації. Зараз діаграми, книга та допоміжний скрипт
-відсутні; наведені команди не є звітом про вже пройдену перевірку.
-Робочий каталог усіх команд — корінь репозиторію.
+Комплект створено в `docs/`, генератор книги — `scripts/generate_crc.py`.
+Робочий каталог усіх команд — корінь репозиторію. Фактичні результати перевірки
+збережено в `%TEMP%/pawnshop-uml-001-review/validation.md` і `traceability.md`.
 
 ## Передумови
 
 Потрібні Python 3.11+, openpyxl, локальний PlantUML JAR із сумісним Java,
 Mermaid CLI з його локальним браузерним рушієм та переглядач XLSX.
-Встановлення виконується окремо під час реалізації; перевірки після підготовки
-інструментів не використовують онлайн-редактори. openpyxl можна підготувати
-командою `python -m pip install openpyxl`; запускати її зараз не потрібно.
-Фактичні версії Python, Java, openpyxl, PlantUML, mmdc записати у звіт перевірки.
-Відсутній інструмент означає незавершену перевірку, а не успішний результат.
+Під час реалізації перевірено Python 3.14.0, openpyxl 3.1.5, Java 25.0.4,
+PlantUML 1.2026.2 та Mermaid CLI 12.2.0. Python/openpyxl розміщено в `.venv/`,
+PlantUML — `.tools/plantuml.jar`, Mermaid CLI — `.tools/node_modules/.bin/mmdc.cmd`.
+Файл `.tools/puppeteer.json` задає локальний Chrome. Ці службові каталоги ігнорує Git.
+На іншому комп’ютері потрібно підготувати інструменти й указати власний шлях браузера.
+Перевірки використовують локальні засоби без онлайн-редакторів.
+
+Для нового середовища: `python -m venv .venv`,
+`.venv/Scripts/python.exe -m pip install openpyxl==3.1.5`,
+`npm.cmd install --prefix .tools @mermaid-js/mermaid-cli@12.2.0`.
+PlantUML JAR 1.2026.2 потрібно зберегти в `.tools/plantuml.jar`.
+Для генерації можна застосувати точний шлях інтерпретатора нижче або додати
+`.venv/Scripts` до PATH і виконати `python scripts/generate_crc.py`.
 
 ## Послідовність перевірки
 
-1. Згенерувати лише п'ять файлів за [контрактом](contracts/artifacts.md).
-   Тексти підготувати безпосередньо; допоміжний скрипт книги створити на етапі реалізації.
-   Його фактичну команду додати до звіту; не запускати неіснуючий генератор.
+1. Чотири текстові джерела вже підготовлені за [контрактом](contracts/artifacts.md).
+   Щоб відтворити книгу з фіксованих даних дев’яти карток:
+
+   ```powershell
+   .venv/Scripts/python.exe scripts/generate_crc.py
+   ```
+
+   Очікування: дев’ять карток, успішне повторне читання, код завершення 0.
 2. Перевірити наявність і розміри:
 
    ```powershell
@@ -31,16 +44,17 @@ Mermaid CLI з його локальним браузерним рушієм т�
    ```powershell
    $umlCheckDir = Join-Path $env:TEMP 'pawnshop-uml-001-review'
    New-Item -ItemType Directory -Force -Path $umlCheckDir
-   mmdc -i docs/class.mmd -o "$umlCheckDir/class.svg"
-   mmdc -i docs/sequence.mmd -o "$umlCheckDir/sequence.svg"
-   mmdc -i docs/state.mmd -o "$umlCheckDir/state.svg"
+   .tools/node_modules/.bin/mmdc.cmd -p .tools/puppeteer.json -i docs/class.mmd -o "$umlCheckDir/class.svg"
+   .tools/node_modules/.bin/mmdc.cmd -p .tools/puppeteer.json -i docs/sequence.mmd -o "$umlCheckDir/sequence.svg"
+   .tools/node_modules/.bin/mmdc.cmd -p .tools/puppeteer.json -i docs/state.mmd -o "$umlCheckDir/state.svg"
    ```
 
    Очікування: код завершення 0 для кожної команди та три читабельні SVG.
 4. Для PlantUML установити `PLANTUML_JAR` на фактичний абсолютний шлях локального JAR:
 
    ```powershell
-   java -jar "$env:PLANTUML_JAR" -tsvg -o "$umlCheckDir" docs/usecase.puml
+   $env:PLANTUML_JAR = (Resolve-Path .tools/plantuml.jar).Path
+   java -jar "$env:PLANTUML_JAR" -charset UTF-8 -tsvg -o "$umlCheckDir" docs/usecase.puml
    ```
 
    Очікування: SVG варіантів використання без повідомлення про синтаксичну помилку.
@@ -48,7 +62,7 @@ Mermaid CLI з його локальним браузерним рушієм т�
 5. Повторно прочитати книгу:
 
    ```powershell
-   python -c "from openpyxl import load_workbook; w=load_workbook('docs/crc.xlsx'); print(w.sheetnames); assert len(w.sheetnames)==9; assert all(s['A2'].value=='Обов’язки класу'.replace('’', chr(39)) and s['B2'].value=='З ким співпрацює' for s in w)"
+   .venv/Scripts/python.exe -c "from openpyxl import load_workbook; w=load_workbook('docs/crc.xlsx'); print(w.sheetnames); assert len(w.sheetnames)==9; assert all(s['A2'].value=='Обов’язки класу'.replace('’', chr(39)) and s['B2'].value=='З ким співпрацює' for s in w)"
    ```
 
    Очікування: дев'ять імен із data-model.md, без винятків. Додатково зіставити

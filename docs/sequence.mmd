@@ -1,0 +1,85 @@
+---
+config:
+  sequence:
+    wrap: true
+    width: 260
+    actorMargin: 60
+    noteAlign: left
+---
+sequenceDiagram
+    participant b as b: Borrower (Позичальник)
+    participant c as c: Cashier (Касир)
+    participant a as a: Appraiser (Оцінювач)
+    participant i as i: CollateralItem (Річ)
+    participant s as s: StolenItemCheckService (Перевірка)
+    Note over b,s: Початкові об’єкти створені складальником сценарію.<br/>Cashier(id, name, a) отримав ICollateralAppraisal через конструктор.<br/>Сервіс отримав локальний stolenItemIds. Усі дані в пам’яті.
+    Note over b,i: Непорожній опис перевірено в CollateralItem(id, description).<br/>За порожнього опису подання заблоковане, договір не створюється.
+    b->>b: submitItem(i)
+    Note over b,i: Подання прийнято: Submitted.
+    c->>c: appraiseItem(i)
+    c->>a: appraise(i)
+    Note over a,i: Виклик через ICollateralAppraisal.<br/>Навчальна оцінка 1000.<br/>Перевантаження appraise(i, proposedValue)<br/>приймає додатне значення.
+    a->>i: setAppraisedValue(1000)
+    i-->>a: Оцінку збережено
+    a-->>c: 1000
+    Note over c,i: Appraised. Оцінка ≤ 0 відхиляється без зміни вартості.<br/>Без оцінки або appraisal наступні дії заблоковані.
+    Note over b,s: Складальник перевіряє виключне володіння річчю і створює договір.<br/>Передумови: principal додатна і не перевищує оцінку, repaymentAmount ≥ principal,<br/>коректний строк, borrower, item та checkService наявні.<br/>Інакше чернетка не створюється, подвійна передача речі заборонена.
+    create participant l as l: LoanAgreement (Договір)
+    c->>l: LoanAgreement("L1", b, i, 800, 840, "2026-12-15", s)
+    Note over c,l: Стрілка створення представляє дію складальника, а не factory-метод Cashier.<br/>Дати в повідомленнях — скорочений запис значень LocalDate.<br/>Конструктор отримав s як IStolenItemCheck. Початковий стан Draft.
+    c->>c: prepareAgreement(l)
+    c->>l: prepare()
+    l->>s: isStolen(i)
+    s->>i: getId()
+    i-->>s: Ідентифікатор речі
+    Note over s: Консольна імітація<br/>перевірки. Пошук лише<br/>у локальному stolenItemIds,<br/>без мережі.
+    s-->>l: Результат boolean
+    alt Річ викрадена: true
+        l-->>c: Rejected — оформлення відхилено
+        Note over b,l: Кінець звернення. Кошти не видаються.<br/>issueFunds, redeemItem або extendAgreement після відмови відхиляються.
+    else Річ не викрадена: false
+        l-->>c: Ready — оформлення завершено
+        c->>c: issueFunds(l)
+        c->>l: activate()
+        l-->>c: Active
+        Note over c,l: Консольна імітація видачі 800.<br/>Без Ready, завершеної перевірки або при повторній видачі activate відхиляє дію.<br/>Повідомлення про виплату з’являється лише після успіху.
+        opt Приклади недопустимих дій в Active
+            b->>b: requestRedemption(c, l, 839)
+            b->>c: redeemItem(l, 839)
+            c->>l: redeem(839)
+            l-->>c: Відхилено: 839 менше 840, стан Active
+            c-->>b: Річ не повертається, фінансової імітації немає
+            b->>b: requestExtension(c, l, "2026-12-15")
+            b->>c: extendAgreement(l, "2026-12-15")
+            c->>l: extend("2026-12-15")
+            l-->>c: Відхилено: новий строк не пізніший, стан і строк збережено
+            c-->>b: Продовження не виконано
+            c->>c: issueFunds(l)
+            c->>l: activate()
+            l-->>c: Відхилено: кошти вже видано, стан Active
+        end
+        alt Безпосередній викуп
+            Note over b,l: Позичальник обирає викуп без продовження.
+        else Продовження, а потім викуп
+            loop Одне або більше продовжень до викупу
+                b->>b: requestExtension(c, l, newDueDate)
+                b->>c: extendAgreement(l, newDueDate)
+                c->>l: extend(newDueDate)
+                l-->>c: Active, строк оновлено
+                c-->>b: Продовження підтверджено
+                Note over b,l: Новий строк пізніший за поточний.<br/>Перше продовження: 2026-12-15 → 2027-01-15.<br/>Повторної видачі коштів немає.
+            end
+        end
+        b->>b: requestRedemption(c, l, 840)
+        b->>c: redeemItem(l, 840)
+        c->>l: redeem(840)
+        l-->>c: Redeemed
+        Note over c,l: Консольні імітації погашення 840 і повернення речі.<br/>Фізична річ не знищується. Кінець звернення.
+        opt Заборонена дія після завершення
+            b->>b: requestRedemption(c, l, 840)
+            b->>c: redeemItem(l, 840)
+            c->>l: redeem(840)
+            l-->>c: Відхилено: договір завершено, стан Redeemed
+            Note over b,l: Так само відхиляються activate та extend.<br/>Немає повторної імітації платежу або повернення.
+        end
+    end

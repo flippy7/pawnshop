@@ -1,0 +1,58 @@
+@startuml
+left to right direction
+skinparam defaultFontName Arial
+skinparam shadowing false
+title Інформаційна система «Ломбард» — варіанти використання
+actor "Позичальник" as Borrower
+actor "Оцінювач" as Appraiser
+actor "Касир" as Cashier
+rectangle "Ломбард" {
+  usecase "Подати річ" as Submit
+  usecase "Оцінити річ" as Appraise
+  usecase "Перевірити річ\nна викрадення" as Check
+  usecase "Оформити позику" as Prepare
+  usecase "Видати кошти" as Issue
+  usecase "Викупити річ" as Redeem
+  usecase "Продовжити договір" as Extend
+}
+Borrower -- Submit
+Borrower -- Prepare
+Borrower -- Redeem
+Borrower -- Extend
+Appraiser -- Appraise
+Cashier -- Appraise
+Cashier -- Check
+Cashier -- Prepare
+Cashier -- Issue
+Cashier -- Redeem
+Cashier -- Extend
+Prepare ..> Check : <<include>>
+note right of Submit
+  Непорожній опис → річ подана.
+  Далі окреме оцінювання → додатна вартість.
+end note
+note right of Prepare
+  Річ оцінена; 0 < позика ≤ оцінка.
+  Сума погашення ≥ позика; строк визначено.
+  Перевірка не виявила викрадення → договір готовий.
+  Викрадення → відмова, видача заборонена.
+end note
+note right of Issue
+  Лише готовий договір, кошти ще не видано.
+  Консольна імітація видачі → активний договір.
+end note
+note right of Redeem
+  Лише активний договір і повне погашення.
+  Консольні імітації погашення та повернення → завершення.
+end note
+note right of Extend
+  Альтернатива викупу: новий строк пізніший.
+  Строк оновлено, договір активний, повторної видачі немає.
+  Продовження можна повторювати до викупу.
+end note
+note bottom of Check
+  Касир ініціює перевірку під час оформлення.
+  Сервіс використовує локальний набір ідентифікаторів
+  і консольне повідомлення; зовнішніх запитів немає.
+end note
+@enduml

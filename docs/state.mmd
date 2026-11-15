@@ -1,0 +1,52 @@
+---
+config:
+  state:
+    wrappingWidth: 360
+---
+stateDiagram-v2
+    direction TB
+    state "Річ подана (Submitted)" as Submitted
+    state "Річ оцінена (Appraised)" as Appraised
+    state "Чернетка договору (Draft)" as Draft
+    state "Договір оформлено (Ready)" as Ready
+    state "Договір активний (Active)" as Active
+    state "Відмова (Rejected)" as Rejected
+    state "Річ викуплена (Redeemed)" as Redeemed
+    [*] --> Submitted: submitItem [опис непорожній]
+    Submitted --> Appraised: appraiseItem → appraise [вартість > 0] / записати оцінку
+    Appraised --> Draft: LoanAgreement(...) [коректні умови і залежності, річ вільна]
+    Draft --> Ready: prepareAgreement → prepare → isStolen [false] / завершити оформлення
+    Draft --> Rejected: prepareAgreement → prepare → isStolen [true] / відмовити без видачі
+    Ready --> Active: issueFunds → activate [0 < principal ≤ оцінки] / консольна імітація видачі
+    Active --> Active: requestExtension → extendAgreement → extend [нова дата пізніша] / оновити строк
+    Active --> Redeemed: requestRedemption → redeemItem → redeem [payment ≥ repaymentAmount] / імітувати погашення і повернення
+    Rejected --> [*]: звернення завершено відмовою
+    Redeemed --> [*]: звернення завершено викупом
+    note left of Submitted
+        Це процес одного звернення і договору.
+        Submitted та Appraised передують договору.
+        Порожній опис блокує подання до входу в Submitted.
+        Оцінка ≤ 0 не переводить у Appraised.
+    end note
+    note left of Draft
+        Чернетка потребує оцінки, 0 < principal ≤ оцінки,
+        repaymentAmount ≥ principal і коректного строку.
+        Без borrower, item, appraisal чи checkService
+        відповідна операція не виконується.
+        Подвійне володіння річчю заборонене складальником.
+        Незавершена перевірка залишає Draft, видача заборонена.
+        Перевірка лише локальна з консольною імітацією.
+    end note
+    note right of Active
+        Продовження можливе багато разів без повторної виплати.
+        payment < repaymentAmount → відмова, річ не повертається.
+        Нова дата ≤ поточної → відмова без зміни строку.
+        Повторна activate → відмова без видачі.
+        Відхилені дії не змінюють стан і не імітують платіж.
+    end note
+    note right of Redeemed
+        У Rejected та Redeemed бізнес-переходів немає.
+        Повторні redeem, extend, activate відхиляються.
+        Викуп не знищує фізичну річ.
+        Нове звернення — окремий життєвий цикл.
+    end note
