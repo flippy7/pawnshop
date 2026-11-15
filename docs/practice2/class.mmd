@@ -1,0 +1,140 @@
+classDiagram
+direction TB
+class PawnshopParticipant {
+  <<abstract>>
+  -String id
+  -String name
+  #PawnshopParticipant(String id, String name)
+  +getId() String
+  +getRole() String*
+}
+class Borrower {
+  +Borrower(String id, String name)
+  +getRole() String
+  +submitItem(CollateralItem item) void
+  +requestRedemption(Cashier cashier, LoanAgreement agreement, BigDecimal payment) void
+  +requestExtension(Cashier cashier, LoanAgreement agreement, LocalDate newDueDate) void
+}
+class Appraiser {
+  +Appraiser(String id, String name)
+  +getRole() String
+  +appraise(CollateralItem item) BigDecimal
+  +appraise(CollateralItem item, BigDecimal proposedValue) BigDecimal
+}
+class Cashier {
+  -ICollateralAppraisal appraisal
+  +Cashier(String id, String name, ICollateralAppraisal appraisal)
+  +getRole() String
+  +appraiseItem(CollateralItem item) BigDecimal
+  +prepareAgreement(LoanAgreement agreement) void
+  +issueFunds(LoanAgreement agreement) void
+  +redeemItem(LoanAgreement agreement, BigDecimal payment) void
+  +extendAgreement(LoanAgreement agreement, LocalDate newDueDate) void
+}
+class CollateralItem {
+  -String id
+  -String description
+  -BigDecimal appraisedValue
+  +CollateralItem(String id, String description)
+  +setAppraisedValue(BigDecimal value) void
+  +getAppraisedValue() BigDecimal
+  +getId() String
+}
+class LoanAgreement {
+  -String id
+  -Borrower borrower
+  -CollateralItem item
+  -IStolenItemCheck checkService
+  -BigDecimal principal
+  -BigDecimal repaymentAmount
+  -LocalDate dueDate
+  -String status
+  +LoanAgreement(String id, Borrower borrower, CollateralItem item, BigDecimal principal, BigDecimal repaymentAmount, LocalDate dueDate, IStolenItemCheck checkService)
+  ~getId() String
+  ~getPrincipal() BigDecimal
+  ~getRepaymentAmount() BigDecimal
+  ~getDueDate() LocalDate
+  +prepare() void
+  +activate() void
+  +redeem(BigDecimal payment) void
+  +extend(LocalDate newDueDate) void
+}
+class StolenItemCheckService {
+  -Set~String~ stolenItemIds
+  +StolenItemCheckService(Set~String~ stolenItemIds)
+  +isStolen(CollateralItem item) boolean
+}
+class ICollateralAppraisal {
+  <<interface>>
+  +appraise(CollateralItem item) BigDecimal
+  +appraise(CollateralItem item, BigDecimal proposedValue) BigDecimal
+}
+class IStolenItemCheck {
+  <<interface>>
+  +isStolen(CollateralItem item) boolean
+}
+PawnshopParticipant <|-- Borrower
+PawnshopParticipant <|-- Appraiser
+PawnshopParticipant <|-- Cashier
+ICollateralAppraisal <|.. Appraiser
+IStolenItemCheck <|.. StolenItemCheckService
+Cashier "0..*" --> "1" ICollateralAppraisal : appraisal через конструктор
+LoanAgreement "0..*" --> "1" Borrower : borrower
+LoanAgreement "0..1" *-- "1" CollateralItem : виключне володіння item
+LoanAgreement "0..*" --> "1" IStolenItemCheck : checkService через конструктор
+Borrower ..> CollateralItem : подає
+Borrower ..> Cashier : ініціює викуп і продовження
+Borrower ..> LoanAgreement : параметр запиту
+Cashier ..> CollateralItem : передає оцінюванню
+Cashier ..> LoanAgreement : координує операції
+Appraiser ..> CollateralItem : записує оцінку
+ICollateralAppraisal ..> CollateralItem : параметр контракту
+StolenItemCheckService ..> CollateralItem : перевіряє ідентифікатор
+IStolenItemCheck ..> CollateralItem : параметр контракту
+note for PawnshopParticipant "final getId(): String — стабільний id, заборона перевизначення.<br/>abstract getRole(): String — спільний контракт.<br/>override getRole(): String у Borrower, Appraiser, Cashier.<br/>LSP: усі нащадки повертають роль без нових передумов."
+note for Appraiser "Перевантаження appraise(item) і appraise(item, proposedValue).<br/>Перша використовує навчальну базову оцінку, друга — явну додатну.<br/>Обидві записують і повертають вартість."
+note for Cashier "OCP: інше оцінювання через ICollateralAppraisal без зміни Cashier.<br/>DIP і DI: appraisal передано ззовні через конструктор.<br/>Консольні імітації видачі, погашення і повернення лише після успіху договору."
+note for IStolenItemCheck "ISP: окремий вузький контракт перевірки; ICollateralAppraisal — лише оцінювання.<br/>DIP: LoanAgreement використовує поведінку StolenItemCheckService через цей контракт.<br/>Прямого створення сервісу в договорі немає."
+note for LoanAgreement "Композиція: один договір володіє одним об’єктом застави; річ має 0..1 власника.<br/>Виключне володіння забезпечує складальник сценарію; подвійна передача заборонена.<br/>Викуп повертає фізичну річ, а не знищує її.<br/>Статуси: Draft, Ready, Active, Rejected, Redeemed.<br/>SRP: договір — правила і стан; Cashier — координація та фінансові імітації."
+note for CollateralItem "SRP: CollateralItem — дані й оцінка; Appraiser — визначення вартості;<br/>Borrower — ініціювання запитів; PawnshopParticipant — ідентифікація;<br/>StolenItemCheckService — локальна перевірка та її консольна імітація.<br/>Стандартні String, BigDecimal, LocalDate, Set не є модельними вузлами."
+
+class Main {
+  -Set~String~ createdItemIds
+  -Set~String~ assignedItemIds
+  -Borrower borrower
+  -Appraiser appraiser
+  -Cashier cashier
+  -int serial
+  -int checks
+  +main(String[] args)$ void
+  -money(String value) BigDecimal
+  -date(String value) LocalDate
+  -createItem(String id, String description) CollateralItem
+  -createAgreement(CollateralItem item, BigDecimal principal, BigDecimal repayment, LocalDate due, IStolenItemCheck service) LoanAgreement
+  -fresh(String state) LoanAgreement
+  -demonstrate() void
+  -check(boolean condition, String label) void
+  -expect(Class~? extends RuntimeException~ type, String reason, Runnable action) void
+  -field(Object target, String name) Object
+  -snapshot(LoanAgreement agreement) List~Object~
+  -capture(Runnable action) String
+  -unchanged(LoanAgreement agreement, Class~? extends RuntimeException~ type, String reason, Runnable action) void
+  -occurrences(String text, String part) long
+  -verify() void
+  -verifyItems() void
+  -verifyAgreements() void
+  -verifyRedemption() void
+  -verifyExtension() void
+  -verifyStates() void
+}
+Main ..> Appraiser : складання або перевірка
+Main ..> Borrower : складання або перевірка
+Main ..> Cashier : складання або перевірка
+Main ..> CollateralItem : складання або перевірка
+Main ..> ICollateralAppraisal : складання або перевірка
+Main ..> IStolenItemCheck : складання або перевірка
+Main ..> LoanAgreement : складання або перевірка
+Main ..> PawnshopParticipant : складання або перевірка
+Main ..> StolenItemCheckService : складання або перевірка
+note for Main "Технічний складальник, не предметна сутність.<br/>Reflection і перехоплення stdout лише у перевірках.<br/>Два анонімні реалізатори контрактів — контрольні об’єкти. Fluent JDK-операції не є модельними вузлами."
+note for LoanAgreement "Доповнення №2: чотири пакетні (~) getters деталізують атрибути.<br/>В оригінальній UML №1 ці операції відсутні. Дозвіл I2, без setters."

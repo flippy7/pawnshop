@@ -1,0 +1,158 @@
+Compiled from "Appraiser.java"
+public class pawnshop.Appraiser extends pawnshop.PawnshopParticipant implements pawnshop.ICollateralAppraisal {
+  public pawnshop.Appraiser(java.lang.String, java.lang.String);
+  public java.lang.String getRole();
+  public java.math.BigDecimal appraise(pawnshop.CollateralItem);
+  public java.math.BigDecimal appraise(pawnshop.CollateralItem, java.math.BigDecimal);
+}
+Compiled from "Borrower.java"
+public class pawnshop.Borrower extends pawnshop.PawnshopParticipant {
+  public pawnshop.Borrower(java.lang.String, java.lang.String);
+  public java.lang.String getRole();
+  public void submitItem(pawnshop.CollateralItem);
+  public void requestRedemption(pawnshop.Cashier, pawnshop.LoanAgreement, java.math.BigDecimal);
+  public void requestExtension(pawnshop.Cashier, pawnshop.LoanAgreement, java.time.LocalDate);
+}
+Compiled from "Cashier.java"
+public class pawnshop.Cashier extends pawnshop.PawnshopParticipant {
+  private pawnshop.ICollateralAppraisal appraisal;
+  public pawnshop.Cashier(java.lang.String, java.lang.String, pawnshop.ICollateralAppraisal);
+  public java.lang.String getRole();
+  public java.math.BigDecimal appraiseItem(pawnshop.CollateralItem);
+  public void prepareAgreement(pawnshop.LoanAgreement);
+  public void issueFunds(pawnshop.LoanAgreement);
+  public void redeemItem(pawnshop.LoanAgreement, java.math.BigDecimal);
+  public void extendAgreement(pawnshop.LoanAgreement, java.time.LocalDate);
+}
+Compiled from "CollateralItem.java"
+public class pawnshop.CollateralItem {
+  private java.lang.String id;
+  private java.lang.String description;
+  private java.math.BigDecimal appraisedValue;
+  public pawnshop.CollateralItem(java.lang.String, java.lang.String);
+  public void setAppraisedValue(java.math.BigDecimal);
+  public java.math.BigDecimal getAppraisedValue();
+  public java.lang.String getId();
+  private static boolean lambda$new$0(int);
+}
+Compiled from "ICollateralAppraisal.java"
+public interface pawnshop.ICollateralAppraisal {
+  public abstract java.math.BigDecimal appraise(pawnshop.CollateralItem);
+  public abstract java.math.BigDecimal appraise(pawnshop.CollateralItem, java.math.BigDecimal);
+}
+Compiled from "IStolenItemCheck.java"
+public interface pawnshop.IStolenItemCheck {
+  public abstract boolean isStolen(pawnshop.CollateralItem);
+}
+Compiled from "LoanAgreement.java"
+public class pawnshop.LoanAgreement {
+  private java.lang.String id;
+  private pawnshop.Borrower borrower;
+  private pawnshop.CollateralItem item;
+  private pawnshop.IStolenItemCheck checkService;
+  private java.math.BigDecimal principal;
+  private java.math.BigDecimal repaymentAmount;
+  private java.time.LocalDate dueDate;
+  private java.lang.String status;
+  public pawnshop.LoanAgreement(java.lang.String, pawnshop.Borrower, pawnshop.CollateralItem, java.math.BigDecimal, java.math.BigDecimal, java.time.LocalDate, pawnshop.IStolenItemCheck);
+  public void prepare();
+  public void activate();
+  public void redeem(java.math.BigDecimal);
+  public void extend(java.time.LocalDate);
+  java.lang.String getId();
+  java.math.BigDecimal getPrincipal();
+  java.math.BigDecimal getRepaymentAmount();
+  java.time.LocalDate getDueDate();
+  private static boolean lambda$new$0(int);
+}
+Compiled from "Main.java"
+public class pawnshop.Main {
+  private java.util.Set<java.lang.String> createdItemIds;
+  private java.util.Set<java.lang.String> assignedItemIds;
+  private pawnshop.Borrower borrower;
+  private pawnshop.Appraiser appraiser;
+  private pawnshop.Cashier cashier;
+  private int serial;
+  private int checks;
+  public pawnshop.Main();
+  public static void main(java.lang.String[]);
+  private java.math.BigDecimal money(java.lang.String);
+  private java.time.LocalDate date(java.lang.String);
+  private pawnshop.CollateralItem createItem(java.lang.String, java.lang.String);
+  private pawnshop.LoanAgreement createAgreement(pawnshop.CollateralItem, java.math.BigDecimal, java.math.BigDecimal, java.time.LocalDate, pawnshop.IStolenItemCheck);
+  private pawnshop.LoanAgreement fresh(java.lang.String);
+  private void demonstrate();
+  private void check(boolean, java.lang.String);
+  private void expect(java.lang.Class<? extends java.lang.RuntimeException>, java.lang.String, java.lang.Runnable);
+  private java.lang.Object field(java.lang.Object, java.lang.String);
+  private java.util.List<java.lang.Object> snapshot(pawnshop.LoanAgreement);
+  private java.lang.String capture(java.lang.Runnable);
+  private void unchanged(pawnshop.LoanAgreement, java.lang.Class<? extends java.lang.RuntimeException>, java.lang.String, java.lang.Runnable);
+  private long occurrences(java.lang.String, java.lang.String);
+  private void verify();
+  private void verifyItems();
+  private void verifyAgreements();
+  private void verifyRedemption();
+  private void verifyExtension();
+  private void verifyStates();
+  private void lambda$verifyStates$9();
+  private void lambda$verifyStates$8();
+  private void lambda$verifyStates$7();
+  private void lambda$verifyStates$6();
+  private void lambda$verifyStates$5();
+  private void lambda$verifyStates$4();
+  private void lambda$verifyStates$3(pawnshop.LoanAgreement);
+  private void lambda$verifyStates$2(pawnshop.LoanAgreement);
+  private void lambda$verifyStates$1(pawnshop.LoanAgreement);
+  private void lambda$verifyStates$0(pawnshop.LoanAgreement);
+  private void lambda$verifyExtension$1(pawnshop.LoanAgreement);
+  private void lambda$verifyExtension$0(pawnshop.LoanAgreement, java.time.LocalDate);
+  private void lambda$verifyRedemption$2(pawnshop.LoanAgreement, java.lang.String);
+  private void lambda$verifyRedemption$1(pawnshop.LoanAgreement, java.math.BigDecimal);
+  private void lambda$verifyRedemption$0(pawnshop.LoanAgreement, java.math.BigDecimal);
+  private void lambda$verifyAgreements$10(pawnshop.LoanAgreement);
+  private void lambda$verifyAgreements$9(pawnshop.LoanAgreement);
+  private void lambda$verifyAgreements$8(pawnshop.CollateralItem, pawnshop.IStolenItemCheck);
+  private void lambda$verifyAgreements$7(pawnshop.CollateralItem, pawnshop.IStolenItemCheck);
+  private void lambda$verifyAgreements$6(pawnshop.CollateralItem, pawnshop.IStolenItemCheck);
+  private void lambda$verifyAgreements$5(pawnshop.CollateralItem);
+  private void lambda$verifyAgreements$4(pawnshop.IStolenItemCheck);
+  private void lambda$verifyAgreements$3(pawnshop.CollateralItem, java.time.LocalDate, pawnshop.IStolenItemCheck);
+  private void lambda$verifyAgreements$2(pawnshop.CollateralItem, java.math.BigDecimal, pawnshop.IStolenItemCheck);
+  private void lambda$verifyAgreements$1(pawnshop.CollateralItem, java.math.BigDecimal, pawnshop.IStolenItemCheck);
+  private void lambda$verifyAgreements$0(pawnshop.CollateralItem, pawnshop.IStolenItemCheck);
+  private static void lambda$verifyItems$10(pawnshop.StolenItemCheckService);
+  private static void lambda$verifyItems$9();
+  private static void lambda$verifyItems$8();
+  private void lambda$verifyItems$7();
+  private void lambda$verifyItems$6();
+  private void lambda$verifyItems$5();
+  private static void lambda$verifyItems$4(pawnshop.CollateralItem, java.math.BigDecimal);
+  private void lambda$verifyItems$3(pawnshop.CollateralItem, java.math.BigDecimal);
+  private void lambda$verifyItems$2();
+  private void lambda$verifyItems$1(java.lang.String);
+  private void lambda$verifyItems$0(java.lang.String);
+  private void lambda$unchanged$0(java.lang.Class, java.lang.String, java.lang.Runnable);
+  private void lambda$demonstrate$5(pawnshop.LoanAgreement);
+  private void lambda$demonstrate$4(pawnshop.LoanAgreement);
+  private void lambda$demonstrate$3(pawnshop.LoanAgreement);
+  private void lambda$demonstrate$2(pawnshop.LoanAgreement);
+  private void lambda$demonstrate$1(pawnshop.LoanAgreement);
+  private void lambda$demonstrate$0(pawnshop.LoanAgreement);
+  private void lambda$fresh$0(pawnshop.LoanAgreement);
+}
+Compiled from "PawnshopParticipant.java"
+public abstract class pawnshop.PawnshopParticipant {
+  private java.lang.String id;
+  private java.lang.String name;
+  protected pawnshop.PawnshopParticipant(java.lang.String, java.lang.String);
+  public final java.lang.String getId();
+  public abstract java.lang.String getRole();
+  private static boolean lambda$new$0(int);
+}
+Compiled from "StolenItemCheckService.java"
+public class pawnshop.StolenItemCheckService implements pawnshop.IStolenItemCheck {
+  private java.util.Set<java.lang.String> stolenItemIds;
+  public pawnshop.StolenItemCheckService(java.util.Set<java.lang.String>);
+  public boolean isStolen(pawnshop.CollateralItem);
+}

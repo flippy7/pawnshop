@@ -1,8 +1,8 @@
-﻿# Швидкий старт і перевірка майбутнього прототипу
+﻿# Швидкий старт і перевірка прототипу
 
 **Задача**: 002 · **Дата**: 2026-11-15.
 
-Це інструкція для етапу реалізації. Зараз Java-файлів і кореневого README ще немає; наведені результати є очікуваними. Компіляція та запуск на етапі планування не виконувалися.
+Java-файли й README створено. Команди нижче фактично перевірено; повні логи та коди наведено у validation.md. На історичному етапі планування запусків не було.
 
 ## Передумови та робочий каталог
 
@@ -21,7 +21,7 @@ $OutputEncoding = [Console]::OutputEncoding
 
 ## Компіляція
 
-Після появи запланованих вихідних файлів:
+Для наявних вихідних файлів:
 
 ```powershell
 New-Item -ItemType Directory -Force -Path out | Out-Null
@@ -35,7 +35,7 @@ if ($compileExitCode -ne 0) { throw 'Компіляція прототипу з�
 ## Чотири демонстраційні маршрути
 
 ```powershell
-java -Dfile.encoding=UTF-8 -Dsun.stdout.encoding=UTF-8 -Dsun.stderr.encoding=UTF-8 -cp out pawnshop.Main all
+java '-Dfile.encoding=UTF-8' '-Dsun.stdout.encoding=UTF-8' '-Dsun.stderr.encoding=UTF-8' -cp out pawnshop.Main all
 $demoExitCode = $LASTEXITCODE
 if ($demoExitCode -ne 0) { throw 'Демонстрація завершилася помилкою' }
 ```
@@ -54,7 +54,7 @@ if ($demoExitCode -ne 0) { throw 'Демонстрація завершилас�
 ## Граничні перевірки
 
 ```powershell
-java -Dfile.encoding=UTF-8 -Dsun.stdout.encoding=UTF-8 -Dsun.stderr.encoding=UTF-8 -cp out pawnshop.Main verify
+java '-Dfile.encoding=UTF-8' '-Dsun.stdout.encoding=UTF-8' '-Dsun.stderr.encoding=UTF-8' -cp out pawnshop.Main verify
 $verifyExitCode = $LASTEXITCODE
 if ($verifyExitCode -ne 0) { throw 'Перевірки прототипу не пройдено' }
 ```
@@ -84,7 +84,7 @@ verify має використовувати явні перевірки, які
 Окремий процес, який навмисно має завершитися невдало:
 
 ```powershell
-java -Dfile.encoding=UTF-8 -Dsun.stdout.encoding=UTF-8 -Dsun.stderr.encoding=UTF-8 -cp out pawnshop.Main fault-check
+java '-Dfile.encoding=UTF-8' '-Dsun.stdout.encoding=UTF-8' '-Dsun.stderr.encoding=UTF-8' -cp out pawnshop.Main fault-check
 $faultExitCode = $LASTEXITCODE
 if ($faultExitCode -ne 1) { throw 'Не підтверджено потрібний код аварійного завершення' }
 ```
@@ -105,4 +105,6 @@ if ($faultExitCode -ne 1) { throw 'Не підтверджено потрібн�
 
 Виявлення викрадення є винятком до незмінності стану після відмови. Після реалізації перевірити та за потреби оновити окрему `docs/practice2/class.mmd` для звіту №2 за правилом I2; оригінальні файли практичної №1 у docs/ незмінні.
 
-**Межа дозволу N1**: `docs/practice2/class.mmd` — майбутній новий файл UML для практичної №2, відповідно до §VII конституції. Його створення передбачено після реалізації; під час поточного виправлення документації файл не створюється. Оригінальні `docs/class.mmd`, `docs/sequence.mmd`, `docs/state.mmd`, `docs/usecase.puml`, `docs/crc.xlsx` практичної №1 не редагуються. Захист наявних матеріалів docs/ не забороняє погодженого додавання цього нового файла №2.
+**Межа дозволу N1**: `docs/practice2/class.mmd` — окремий новий файл UML для практичної №2, відповідно до §VII конституції. Файл створено після реалізації на дозволеному етапі implement; попереднє виправлення документації його ще не створювало. Оригінальні `docs/class.mmd`, `docs/sequence.mmd`, `docs/state.mmd`, `docs/usecase.puml`, `docs/crc.xlsx` практичної №1 не редагуються. Захист наявних матеріалів docs/ не забороняє погодженого додавання цього нового файла №2.
+
+**Результат implement (2026-11-15)**: реалізацію та консольне приймання виконано. Докази — [validation.md](validation.md) і [model-code-review.md](model-code-review.md). Історичні твердження про відсутність запусків стосуються етапів specify/plan.

@@ -50,3 +50,7 @@
 - Перевірено узгодженість із `docs/usecase.puml`, `docs/class.mmd`, `docs/sequence.mmd`, `docs/state.mmd`, дев'ятьма аркушами `docs/crc.xlsx` і конституцією `1.0.0`.
 - `Submitted` і `Appraised` не додано до станів договору; платіж понад належну суму дозволено відповідно до `payment ≥ repaymentAmount`; відмова та викуп є кінцевими результатами.
 - На момент первинної оцінки наступним етапом був `$speckit-plan`. Уточнення через `$speckit-clarify` необов'язкове за поточного обсягу.
+
+## Повторна оцінка implement
+
+Історичні 25/25 збережено. Актуальні 40/40 питань якості — у prototype.md; докази запусків і моделі — [validation.md](../validation.md) та [model-code-review.md](../model-code-review.md). Твердження про відсутність реалізації вище описують етап specify.

@@ -1,0 +1,13 @@
+{
+  "src/pawnshop/Appraiser.java": "96180721af68bbb46283e0d578fa241db2bc36f30876f070b791eb9f63187f10",
+  "src/pawnshop/Borrower.java": "56ed340ba8d72aba1706d2f8a1e9ae854e1c6f2ac927221f70b77c3b487ae085",
+  "src/pawnshop/Cashier.java": "30e6791ef512553d2ef11f0b18895c3c6fa4ccc8e9e151fb5174e35ffc51e8a5",
+  "src/pawnshop/CollateralItem.java": "11fffe3c60ab0a39fea629e28318f067910880409e88f574b8414426fa6325d5",
+  "src/pawnshop/ICollateralAppraisal.java": "87fa2ea77d8c26b52297d8c336d417483ff5f112e068877640e393cbffd11829",
+  "src/pawnshop/IStolenItemCheck.java": "11080e05aabf7d644b8fc0e2b5a99921b5848662169de9bc9ebf7936250b0a57",
+  "src/pawnshop/LoanAgreement.java": "6a326b5fe0f3bb8bba6188336f385f469d86fa0ecb50e8ecb44cdd9665104e09",
+  "src/pawnshop/Main.java": "13c6fa1a6c5cb524364afdf2731fb3d8d72dd6da71d0a121bd9ce03179917df1",
+  "src/pawnshop/PawnshopParticipant.java": "17a2d8df892d55308f17616cf99953e0b6e191e14fb0f59f24418831eb33f2b0",
+  "src/pawnshop/StolenItemCheckService.java": "425ba0d16e57220f1138983e5920cd7e1c2a548707703b1e67b23fe61421174f",
+  "docs/practice2/class.mmd": "25216fbf7cf14af0e359f4dd15e754df46430543b1c8ebc30be075b7f56d852d"
+}

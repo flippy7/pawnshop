@@ -1,0 +1,9 @@
+Початковий Git-стан із preflight tool, до запису Java-файлів:
+ M specs/002-pawnshop-prototype/analysis.md
+ M specs/002-pawnshop-prototype/data-model.md
+ M specs/002-pawnshop-prototype/plan.md
+ M specs/002-pawnshop-prototype/quickstart.md
+ M specs/002-pawnshop-prototype/research.md
+ M specs/002-pawnshop-prototype/spec.md
+ M specs/002-pawnshop-prototype/tasks.md
+?? .specify/feature.json

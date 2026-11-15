@@ -1,0 +1,13 @@
+ M specs/002-pawnshop-prototype/analysis.md
+ M specs/002-pawnshop-prototype/contracts/console.md
+ M specs/002-pawnshop-prototype/data-model.md
+ M specs/002-pawnshop-prototype/plan.md
+ M specs/002-pawnshop-prototype/quickstart.md
+ M specs/002-pawnshop-prototype/research.md
+ M specs/002-pawnshop-prototype/spec.md
+?? .specify/feature.json
+?? README.md
+?? out/
+?? specs/002-pawnshop-prototype/logs/
+?? specs/002-pawnshop-prototype/protected-hashes.json
+?? src/

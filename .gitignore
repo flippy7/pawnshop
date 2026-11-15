@@ -14,3 +14,11 @@ Thumbs.db
 *.swp
 .vscode/
 .idea/
+
+out/
+*.class
+*.jar
+target/
+.gradle/
+build/
+!specs/002-pawnshop-prototype/logs/*.log

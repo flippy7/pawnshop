@@ -1,0 +1,376 @@
+[
+  {
+    "label": "compile",
+    "command": [
+      "javac",
+      "--release",
+      "17",
+      "-encoding",
+      "UTF-8",
+      "-d",
+      "out",
+      "src\\pawnshop\\Appraiser.java",
+      "src\\pawnshop\\Borrower.java",
+      "src\\pawnshop\\Cashier.java",
+      "src\\pawnshop\\CollateralItem.java",
+      "src\\pawnshop\\ICollateralAppraisal.java",
+      "src\\pawnshop\\IStolenItemCheck.java",
+      "src\\pawnshop\\LoanAgreement.java",
+      "src\\pawnshop\\Main.java",
+      "src\\pawnshop\\PawnshopParticipant.java",
+      "src\\pawnshop\\StolenItemCheckService.java"
+    ],
+    "cwd": "C:\\Users\\pusto\\Desktop\\ооп\\prak1\\pawnshop",
+    "exit": 0,
+    "expected": 0
+  },
+  {
+    "label": "all",
+    "command": [
+      "java",
+      "-Dfile.encoding=UTF-8",
+      "-Dsun.stdout.encoding=UTF-8",
+      "-Dsun.stderr.encoding=UTF-8",
+      "-cp",
+      "out",
+      "pawnshop.Main",
+      "all"
+    ],
+    "cwd": "C:\\Users\\pusto\\Desktop\\ооп\\prak1\\pawnshop",
+    "exit": 0,
+    "expected": 0
+  },
+  {
+    "label": "default",
+    "command": [
+      "java",
+      "-Dfile.encoding=UTF-8",
+      "-Dsun.stdout.encoding=UTF-8",
+      "-Dsun.stderr.encoding=UTF-8",
+      "-cp",
+      "out",
+      "pawnshop.Main"
+    ],
+    "cwd": "C:\\Users\\pusto\\Desktop\\ооп\\prak1\\pawnshop",
+    "exit": 0,
+    "expected": 0
+  },
+  {
+    "label": "all-repeat",
+    "command": [
+      "java",
+      "-Dfile.encoding=UTF-8",
+      "-Dsun.stdout.encoding=UTF-8",
+      "-Dsun.stderr.encoding=UTF-8",
+      "-cp",
+      "out",
+      "pawnshop.Main",
+      "all"
+    ],
+    "cwd": "C:\\Users\\pusto\\Desktop\\ооп\\prak1\\pawnshop",
+    "exit": 0,
+    "expected": 0
+  },
+  {
+    "label": "verify",
+    "command": [
+      "java",
+      "-Dfile.encoding=UTF-8",
+      "-Dsun.stdout.encoding=UTF-8",
+      "-Dsun.stderr.encoding=UTF-8",
+      "-cp",
+      "out",
+      "pawnshop.Main",
+      "verify"
+    ],
+    "cwd": "C:\\Users\\pusto\\Desktop\\ооп\\prak1\\pawnshop",
+    "exit": 0,
+    "expected": 0
+  },
+  {
+    "label": "fault",
+    "command": [
+      "java",
+      "-Dfile.encoding=UTF-8",
+      "-Dsun.stdout.encoding=UTF-8",
+      "-Dsun.stderr.encoding=UTF-8",
+      "-cp",
+      "out",
+      "pawnshop.Main",
+      "fault-check"
+    ],
+    "cwd": "C:\\Users\\pusto\\Desktop\\ооп\\prak1\\pawnshop",
+    "exit": 1,
+    "expected": 1
+  },
+  {
+    "label": "invalid",
+    "command": [
+      "java",
+      "-Dfile.encoding=UTF-8",
+      "-Dsun.stdout.encoding=UTF-8",
+      "-Dsun.stderr.encoding=UTF-8",
+      "-cp",
+      "out",
+      "pawnshop.Main",
+      "unknown"
+    ],
+    "cwd": "C:\\Users\\pusto\\Desktop\\ооп\\prak1\\pawnshop",
+    "exit": 2,
+    "expected": 2
+  },
+  {
+    "label": "extra",
+    "command": [
+      "java",
+      "-Dfile.encoding=UTF-8",
+      "-Dsun.stdout.encoding=UTF-8",
+      "-Dsun.stderr.encoding=UTF-8",
+      "-cp",
+      "out",
+      "pawnshop.Main",
+      "all",
+      "extra"
+    ],
+    "cwd": "C:\\Users\\pusto\\Desktop\\ооп\\prak1\\pawnshop",
+    "exit": 2,
+    "expected": 2
+  },
+  {
+    "label": "powershell-verify",
+    "command": [
+      "powershell.exe",
+      "-NoProfile",
+      "-Command",
+      "[Console]::OutputEncoding = [System.Text.UTF8Encoding]::new($false); $OutputEncoding = [Console]::OutputEncoding; java '-Dfile.encoding=UTF-8' '-Dsun.stdout.encoding=UTF-8' '-Dsun.stderr.encoding=UTF-8' -cp out pawnshop.Main verify; exit $LASTEXITCODE"
+    ],
+    "cwd": "C:\\Users\\pusto\\Desktop\\ооп\\prak1\\pawnshop",
+    "exit": 0,
+    "expected": 0
+  },
+  {
+    "label": "clean-compile",
+    "command": [
+      "powershell.exe",
+      "-NoProfile",
+      "-Command",
+      "[Console]::OutputEncoding = [System.Text.UTF8Encoding]::new($false); $OutputEncoding = [Console]::OutputEncoding; New-Item -ItemType Directory -Force out | Out-Null; javac --release 17 -encoding UTF-8 -d out src/pawnshop/*.java; exit $LASTEXITCODE"
+    ],
+    "cwd": "C:\\Users\\pusto\\AppData\\Local\\Temp\\pawnshop-clean-2ogyvv4d",
+    "exit": 0,
+    "expected": 0
+  },
+  {
+    "label": "clean-all",
+    "command": [
+      "powershell.exe",
+      "-NoProfile",
+      "-Command",
+      "[Console]::OutputEncoding = [System.Text.UTF8Encoding]::new($false); $OutputEncoding = [Console]::OutputEncoding; java '-Dfile.encoding=UTF-8' '-Dsun.stdout.encoding=UTF-8' '-Dsun.stderr.encoding=UTF-8' -cp out pawnshop.Main all; exit $LASTEXITCODE"
+    ],
+    "cwd": "C:\\Users\\pusto\\AppData\\Local\\Temp\\pawnshop-clean-2ogyvv4d",
+    "exit": 0,
+    "expected": 0
+  },
+  {
+    "label": "clean-default",
+    "command": [
+      "powershell.exe",
+      "-NoProfile",
+      "-Command",
+      "[Console]::OutputEncoding = [System.Text.UTF8Encoding]::new($false); $OutputEncoding = [Console]::OutputEncoding; java '-Dfile.encoding=UTF-8' '-Dsun.stdout.encoding=UTF-8' '-Dsun.stderr.encoding=UTF-8' -cp out pawnshop.Main ; exit $LASTEXITCODE"
+    ],
+    "cwd": "C:\\Users\\pusto\\AppData\\Local\\Temp\\pawnshop-clean-2ogyvv4d",
+    "exit": 0,
+    "expected": 0
+  },
+  {
+    "label": "clean-verify",
+    "command": [
+      "powershell.exe",
+      "-NoProfile",
+      "-Command",
+      "[Console]::OutputEncoding = [System.Text.UTF8Encoding]::new($false); $OutputEncoding = [Console]::OutputEncoding; java '-Dfile.encoding=UTF-8' '-Dsun.stdout.encoding=UTF-8' '-Dsun.stderr.encoding=UTF-8' -cp out pawnshop.Main verify; exit $LASTEXITCODE"
+    ],
+    "cwd": "C:\\Users\\pusto\\AppData\\Local\\Temp\\pawnshop-clean-2ogyvv4d",
+    "exit": 0,
+    "expected": 0
+  },
+  {
+    "label": "clean-fault",
+    "command": [
+      "powershell.exe",
+      "-NoProfile",
+      "-Command",
+      "[Console]::OutputEncoding = [System.Text.UTF8Encoding]::new($false); $OutputEncoding = [Console]::OutputEncoding; java '-Dfile.encoding=UTF-8' '-Dsun.stdout.encoding=UTF-8' '-Dsun.stderr.encoding=UTF-8' -cp out pawnshop.Main fault-check; exit $LASTEXITCODE"
+    ],
+    "cwd": "C:\\Users\\pusto\\AppData\\Local\\Temp\\pawnshop-clean-2ogyvv4d",
+    "exit": 1,
+    "expected": 1
+  },
+  {
+    "label": "clean-invalid",
+    "command": [
+      "powershell.exe",
+      "-NoProfile",
+      "-Command",
+      "[Console]::OutputEncoding = [System.Text.UTF8Encoding]::new($false); $OutputEncoding = [Console]::OutputEncoding; java '-Dfile.encoding=UTF-8' '-Dsun.stdout.encoding=UTF-8' '-Dsun.stderr.encoding=UTF-8' -cp out pawnshop.Main unknown; exit $LASTEXITCODE"
+    ],
+    "cwd": "C:\\Users\\pusto\\AppData\\Local\\Temp\\pawnshop-clean-2ogyvv4d",
+    "exit": 2,
+    "expected": 2
+  },
+  {
+    "label": "clean-extra",
+    "command": [
+      "powershell.exe",
+      "-NoProfile",
+      "-Command",
+      "[Console]::OutputEncoding = [System.Text.UTF8Encoding]::new($false); $OutputEncoding = [Console]::OutputEncoding; java '-Dfile.encoding=UTF-8' '-Dsun.stdout.encoding=UTF-8' '-Dsun.stderr.encoding=UTF-8' -cp out pawnshop.Main all extra; exit $LASTEXITCODE"
+    ],
+    "cwd": "C:\\Users\\pusto\\AppData\\Local\\Temp\\pawnshop-clean-2ogyvv4d",
+    "exit": 2,
+    "expected": 2
+  },
+  {
+    "label": "jdeps",
+    "command": [
+      "C:\\Program Files\\Java\\jdk-25.0.4\\bin\\jdeps.exe",
+      "-summary",
+      "out"
+    ],
+    "cwd": "C:\\Users\\pusto\\Desktop\\ооп\\prak1\\pawnshop",
+    "exit": 0,
+    "expected": 0
+  },
+  {
+    "label": "javap",
+    "command": [
+      "C:\\Program Files\\Java\\jdk-25.0.4\\bin\\javap.exe",
+      "-private",
+      "-classpath",
+      "out",
+      "pawnshop.Appraiser",
+      "pawnshop.Borrower",
+      "pawnshop.Cashier",
+      "pawnshop.CollateralItem",
+      "pawnshop.ICollateralAppraisal",
+      "pawnshop.IStolenItemCheck",
+      "pawnshop.LoanAgreement",
+      "pawnshop.Main",
+      "pawnshop.PawnshopParticipant",
+      "pawnshop.StolenItemCheckService"
+    ],
+    "cwd": "C:\\Users\\pusto\\Desktop\\ооп\\prak1\\pawnshop",
+    "exit": 0,
+    "expected": 0
+  },
+  {
+    "label": "final-compile",
+    "command": [
+      "powershell.exe",
+      "-NoProfile",
+      "-Command",
+      "chcp 65001; [Console]::OutputEncoding = [System.Text.UTF8Encoding]::new($false); $OutputEncoding = [Console]::OutputEncoding; New-Item -ItemType Directory -Force out | Out-Null; javac --release 17 -encoding UTF-8 -d out src/pawnshop/*.java; exit $LASTEXITCODE"
+    ],
+    "cwd": "C:\\Users\\pusto\\Desktop\\ооп\\prak1\\pawnshop",
+    "exit": 0,
+    "expected": 0
+  },
+  {
+    "label": "final-clean-compile",
+    "command": [
+      "powershell.exe",
+      "-NoProfile",
+      "-Command",
+      "chcp 65001; [Console]::OutputEncoding = [System.Text.UTF8Encoding]::new($false); $OutputEncoding = [Console]::OutputEncoding; New-Item -ItemType Directory -Force out | Out-Null; javac --release 17 -encoding UTF-8 -d out src/pawnshop/*.java; exit $LASTEXITCODE"
+    ],
+    "cwd": "C:\\Users\\pusto\\AppData\\Local\\Temp\\pawnshop-final-z0xy5ps4",
+    "exit": 0,
+    "expected": 0
+  },
+  {
+    "label": "final-clean-all",
+    "command": [
+      "powershell.exe",
+      "-NoProfile",
+      "-Command",
+      "chcp 65001; [Console]::OutputEncoding = [System.Text.UTF8Encoding]::new($false); $OutputEncoding = [Console]::OutputEncoding; java '-Dfile.encoding=UTF-8' '-Dsun.stdout.encoding=UTF-8' '-Dsun.stderr.encoding=UTF-8' -cp out pawnshop.Main all; exit $LASTEXITCODE"
+    ],
+    "cwd": "C:\\Users\\pusto\\AppData\\Local\\Temp\\pawnshop-final-z0xy5ps4",
+    "exit": 0,
+    "expected": 0
+  },
+  {
+    "label": "final-clean-default",
+    "command": [
+      "powershell.exe",
+      "-NoProfile",
+      "-Command",
+      "chcp 65001; [Console]::OutputEncoding = [System.Text.UTF8Encoding]::new($false); $OutputEncoding = [Console]::OutputEncoding; java '-Dfile.encoding=UTF-8' '-Dsun.stdout.encoding=UTF-8' '-Dsun.stderr.encoding=UTF-8' -cp out pawnshop.Main ; exit $LASTEXITCODE"
+    ],
+    "cwd": "C:\\Users\\pusto\\AppData\\Local\\Temp\\pawnshop-final-z0xy5ps4",
+    "exit": 0,
+    "expected": 0
+  },
+  {
+    "label": "final-clean-verify",
+    "command": [
+      "powershell.exe",
+      "-NoProfile",
+      "-Command",
+      "chcp 65001; [Console]::OutputEncoding = [System.Text.UTF8Encoding]::new($false); $OutputEncoding = [Console]::OutputEncoding; java '-Dfile.encoding=UTF-8' '-Dsun.stdout.encoding=UTF-8' '-Dsun.stderr.encoding=UTF-8' -cp out pawnshop.Main verify; exit $LASTEXITCODE"
+    ],
+    "cwd": "C:\\Users\\pusto\\AppData\\Local\\Temp\\pawnshop-final-z0xy5ps4",
+    "exit": 0,
+    "expected": 0
+  },
+  {
+    "label": "final-clean-fault",
+    "command": [
+      "powershell.exe",
+      "-NoProfile",
+      "-Command",
+      "chcp 65001; [Console]::OutputEncoding = [System.Text.UTF8Encoding]::new($false); $OutputEncoding = [Console]::OutputEncoding; java '-Dfile.encoding=UTF-8' '-Dsun.stdout.encoding=UTF-8' '-Dsun.stderr.encoding=UTF-8' -cp out pawnshop.Main fault-check; exit $LASTEXITCODE"
+    ],
+    "cwd": "C:\\Users\\pusto\\AppData\\Local\\Temp\\pawnshop-final-z0xy5ps4",
+    "exit": 1,
+    "expected": 1
+  },
+  {
+    "label": "final-clean-invalid",
+    "command": [
+      "powershell.exe",
+      "-NoProfile",
+      "-Command",
+      "chcp 65001; [Console]::OutputEncoding = [System.Text.UTF8Encoding]::new($false); $OutputEncoding = [Console]::OutputEncoding; java '-Dfile.encoding=UTF-8' '-Dsun.stdout.encoding=UTF-8' '-Dsun.stderr.encoding=UTF-8' -cp out pawnshop.Main unknown; exit $LASTEXITCODE"
+    ],
+    "cwd": "C:\\Users\\pusto\\AppData\\Local\\Temp\\pawnshop-final-z0xy5ps4",
+    "exit": 2,
+    "expected": 2
+  },
+  {
+    "label": "final-clean-extra",
+    "command": [
+      "powershell.exe",
+      "-NoProfile",
+      "-Command",
+      "chcp 65001; [Console]::OutputEncoding = [System.Text.UTF8Encoding]::new($false); $OutputEncoding = [Console]::OutputEncoding; java '-Dfile.encoding=UTF-8' '-Dsun.stdout.encoding=UTF-8' '-Dsun.stderr.encoding=UTF-8' -cp out pawnshop.Main all extra; exit $LASTEXITCODE"
+    ],
+    "cwd": "C:\\Users\\pusto\\AppData\\Local\\Temp\\pawnshop-final-z0xy5ps4",
+    "exit": 2,
+    "expected": 2
+  },
+  {
+    "label": "final-clean-repeat",
+    "command": [
+      "powershell.exe",
+      "-NoProfile",
+      "-Command",
+      "chcp 65001; [Console]::OutputEncoding = [System.Text.UTF8Encoding]::new($false); $OutputEncoding = [Console]::OutputEncoding; java '-Dfile.encoding=UTF-8' '-Dsun.stdout.encoding=UTF-8' '-Dsun.stderr.encoding=UTF-8' -cp out pawnshop.Main all; exit $LASTEXITCODE"
+    ],
+    "cwd": "C:\\Users\\pusto\\AppData\\Local\\Temp\\pawnshop-final-z0xy5ps4",
+    "exit": 0,
+    "expected": 0
+  }
+]
